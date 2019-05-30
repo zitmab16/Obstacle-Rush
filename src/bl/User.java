@@ -12,19 +12,14 @@ import java.awt.Color;
  * @author vizug
  */
 public class User {
-    private int score;
+    
     private String user;
     private Color color;
 
-    public User(int score, String name,Color color) {
-        this.score = score;
+    public User(String name,Color color) {
+        
         this.user = name;
         this.color=color;
-    }
-
-    public int getScore() {
-        return score;
-        
     }
 
     public String getUsername() {

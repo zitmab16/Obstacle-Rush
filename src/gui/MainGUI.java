@@ -1,12 +1,14 @@
 package gui;
 
+import bl.DataBase;
+import bl.Highscore;
 import bl.Obstacle;
 import bl.Player;
 import bl.User;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -27,22 +29,26 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     private Player player = new Player(50, 50);
     private LinkedList<Obstacle> obstacles = new LinkedList<>();
     private Random rand = new Random();
-    private Thread co;
-    private Thread t = new Thread(this);
+    private Thread threadobstacle;
+    private Thread threadpanel = new Thread(this);
     private CreateUserDialog dlg;
     private User user;
+    private Thread threadscore;
+    private int score = 0;
+    public DataBase db;
 
     /**
      * Creates new form MainGUI
      */
-    public MainGUI() {
+    public MainGUI() throws SQLException {
+        this.db = new DataBase();
         initComponents();
         this.setVisible(true);
         this.setFocusable(false);
         panelGame.setFocusable(true);
         createDlg();
         createObstacle();
-        t.start();
+        threadpanel.start();
 
     }
 
@@ -146,7 +152,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_panelGameKeyPressed
 
     public void createObstacle() {
-        co = new Thread() {
+        threadobstacle = new Thread() {
             @Override
             public void run() {
                 while (true) {
@@ -159,15 +165,48 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
                 }
             }
         };
-        co.start();
+        threadobstacle.start();
 
     }
 
-    public void checkPlayerObstacles() {
+    public void createHighscore() throws SQLException{
+        Highscore hs = new Highscore(this.score,user.getUsername());
+        insertIntoDataBase(hs);
+    }
+    public void insertIntoDataBase(Highscore hs) throws SQLException{
+        db.insertHighscore(hs);
+    }
+    public void countScore() {
+        threadscore = new Thread() {
+            
+
+            @Override
+            public void run() {
+                while (true) {
+                    score += 20;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+            public int getScore() {
+                return score;
+            }
+            
+        };
+        threadscore.start();
+    }
+
+    public void checkPlayerObstacles() throws SQLException {
         for (Obstacle obstacle : obstacles) {
             if (obstacle.x == player.x && obstacle.y == player.y) {
-                co.stop();
-                t.stop();
+                threadobstacle.stop();
+                threadpanel.stop();
+                threadscore.stop();
+                createHighscore();
                 JOptionPane.showMessageDialog(null, "You have lost!");
             }
         }
@@ -223,7 +262,11 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainGUI();
+                try {
+                    new MainGUI();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

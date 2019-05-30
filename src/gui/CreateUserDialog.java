@@ -108,7 +108,7 @@ public class CreateUserDialog extends javax.swing.JDialog {
                 break;
         }
 
-        user = new User(0, tfUsername.getText(), c);
+        user = new User(tfUsername.getText(), c);
         ok = true;
         this.dispose();
     }//GEN-LAST:event_btOkActionPerformed
