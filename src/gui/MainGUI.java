@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,6 +26,9 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     private Player player = new Player(50, 50);
     private LinkedList<Obstacle> obstacles = new LinkedList<>();
     private Random rand = new Random();
+    private Thread co;
+    private Thread t = new Thread(this);
+    
 
     /**
      * Creates new form MainGUI
@@ -35,8 +39,6 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         this.setFocusable(false);
         panelGame.setFocusable(true);
         createObstacle();
-
-        Thread t = new Thread(this);
         t.start();
 
     }
@@ -132,11 +134,12 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_panelGameKeyPressed
 
     public void createObstacle() {
-        Thread co = new Thread(this) {
+       co = new Thread() {
             @Override
             public void run() {
                while(true){
-                 obstacles.add(new Obstacle(rand.nextInt(panelGame.getWidth() - 0 + 1) + 0, 0));
+                   
+                 obstacles.add(new Obstacle(rand.nextInt(panelGame.getWidth() - 0 + 1)+0, 0));
                 try {
                     Thread.sleep(4000);
                 } catch (InterruptedException ex) {
@@ -147,6 +150,15 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         };
         co.start();
        
+    }
+    public void checkPlayerObstacles(){
+        for (Obstacle obstacle : obstacles) {
+            if(obstacle.x==player.x && obstacle.y==player.y){
+                co.stop();
+                t.stop();
+                JOptionPane.showMessageDialog(null,"You have lost!");
+            }
+        }
     }
 
     @Override
@@ -161,6 +173,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
 
         g.setColor(Color.red);
         g.fillRect(player.x, player.y, 10, 10);
+        checkPlayerObstacles();
     }
 
     /**
