@@ -2,6 +2,7 @@ package gui;
 
 import bl.Obstacle;
 import bl.Player;
+import bl.User;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -28,7 +29,8 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     private Random rand = new Random();
     private Thread co;
     private Thread t = new Thread(this);
-    
+    private CreateUserDialog dlg;
+    private User user;
 
     /**
      * Creates new form MainGUI
@@ -38,6 +40,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         this.setVisible(true);
         this.setFocusable(false);
         panelGame.setFocusable(true);
+        createDlg();
         createObstacle();
         t.start();
 
@@ -111,6 +114,15 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void createDlg() {
+        dlg = new CreateUserDialog(this, true);
+        dlg.setVisible(true);
+
+        if (dlg.isOk()) {
+            user = dlg.getUser();
+        }
+    }
+
     private void panelGameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelGameKeyPressed
 
         switch (evt.getKeyCode()) {
@@ -134,29 +146,29 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_panelGameKeyPressed
 
     public void createObstacle() {
-       co = new Thread() {
+        co = new Thread() {
             @Override
             public void run() {
-               while(true){
-                   
-                 obstacles.add(new Obstacle(rand.nextInt(panelGame.getWidth() - 0 + 1)+0, 0));
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException ex) {
-                    System.out.println(ex.getMessage());
-                }  
-               }                
+                while (true) {
+                    obstacles.add(new Obstacle(((((rand.nextInt(panelGame.getWidth() - 0 + 1) + 0) + 9) / 10) * 10), 0));
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
             }
         };
         co.start();
-       
+
     }
-    public void checkPlayerObstacles(){
+
+    public void checkPlayerObstacles() {
         for (Obstacle obstacle : obstacles) {
-            if(obstacle.x==player.x && obstacle.y==player.y){
+            if (obstacle.x == player.x && obstacle.y == player.y) {
                 co.stop();
                 t.stop();
-                JOptionPane.showMessageDialog(null,"You have lost!");
+                JOptionPane.showMessageDialog(null, "You have lost!");
             }
         }
     }
@@ -171,9 +183,14 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
             obstacle.y += 1;
         }
 
-        g.setColor(Color.red);
-        g.fillRect(player.x, player.y, 10, 10);
-        checkPlayerObstacles();
+        try {
+            g.setColor(user.getColor());
+            g.fillRect(player.x, player.y, 10, 10);
+            checkPlayerObstacles();
+        } catch (Exception ex) {
+
+        }
+
     }
 
     /**

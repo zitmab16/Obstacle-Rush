@@ -41,12 +41,13 @@
     <Component class="javax.swing.JComboBox" name="cmbColor">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="6">
             <StringItem index="0" value="Yellow"/>
-            <StringItem index="1" value="Green.Red"/>
-            <StringItem index="2" value="Blue"/>
-            <StringItem index="3" value="Cyan"/>
-            <StringItem index="4" value="Grey"/>
+            <StringItem index="1" value="Green"/>
+            <StringItem index="2" value="Red"/>
+            <StringItem index="3" value="Blue"/>
+            <StringItem index="4" value="Cyan"/>
+            <StringItem index="5" value="Magenta"/>
           </StringArray>
         </Property>
       </Properties>

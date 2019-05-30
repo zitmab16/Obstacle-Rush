@@ -21,7 +21,7 @@ public class CreateUserDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    boolean ok =false;
+    boolean ok = false;
     User user;
 
     public boolean isOk() {
@@ -32,8 +32,6 @@ public class CreateUserDialog extends javax.swing.JDialog {
         return user;
     }
 
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +58,7 @@ public class CreateUserDialog extends javax.swing.JDialog {
         lbColor.setText(" Color");
         getContentPane().add(lbColor);
 
-        cmbColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yellow", "Green.Red", "Blue", "Cyan", "Grey" }));
+        cmbColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yellow", "Green", "Red", "Blue", "Cyan", "Magenta" }));
         getContentPane().add(cmbColor);
 
         btOk.setText("OK");
@@ -88,9 +86,30 @@ public class CreateUserDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelActionPerformed
 
     private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
-        Color c = Color.getColor((String)cmbColor.getSelectedItem());
-        user = new User(0,tfUsername.getText(),c);
-        ok =true;
+        Color c = null;
+        switch (cmbColor.getSelectedIndex()) {
+            case 0:
+                c = Color.YELLOW;
+                break;
+            case 1:
+                c = Color.GREEN;
+                break;
+            case 2:
+                c = Color.RED;
+                break;
+            case 3:
+                c = Color.BLUE;
+                break;
+            case 4:
+                c = Color.CYAN;
+                break;
+            case 5:
+                c = Color.MAGENTA;
+                break;
+        }
+
+        user = new User(0, tfUsername.getText(), c);
+        ok = true;
         this.dispose();
     }//GEN-LAST:event_btOkActionPerformed
 
