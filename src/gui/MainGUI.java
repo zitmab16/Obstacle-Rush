@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,8 +22,9 @@ import java.util.logging.Logger;
  */
 public class MainGUI extends javax.swing.JFrame implements Runnable {
 
-    private Obstacle obstacle = new Obstacle(2, 1);
     private Player player = new Player(50, 50);
+    private LinkedList<Obstacle> obstacles = new LinkedList<>();
+    private Random rand = new Random();
 
     /**
      * Creates new form MainGUI
@@ -31,7 +34,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         this.setVisible(true);
         this.setFocusable(false);
         panelGame.setFocusable(true);
-        //this.run();
+        createObstacle();
 
         Thread t = new Thread(this);
         t.start();
@@ -128,12 +131,34 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
 
     }//GEN-LAST:event_panelGameKeyPressed
 
+    public void createObstacle() {
+        Thread co = new Thread(this) {
+            @Override
+            public void run() {
+               while(true){
+                 obstacles.add(new Obstacle(rand.nextInt(panelGame.getWidth() - 0 + 1) + 0, 0));
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException ex) {
+                    System.out.println(ex.getMessage());
+                }  
+               }                
+            }
+        };
+        co.start();
+       
+    }
+
     @Override
     public void paint(Graphics gParent) {
         Graphics2D g = (Graphics2D) panelGame.getGraphics();
         g.clearRect(0, 0, panelGame.getWidth(), panelGame.getHeight());
-        g.fillRect(obstacle.x, obstacle.y, 10, 10);
-        obstacle.y += 1;
+
+        for (Obstacle obstacle : obstacles) {
+            g.fillRect(obstacle.x, obstacle.y, 10, 10);
+            obstacle.y += 1;
+        }
+
         g.setColor(Color.red);
         g.fillRect(player.x, player.y, 10, 10);
     }

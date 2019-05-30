@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Jg3">
-            <file>file:/C:/Users/vizug/OneDrive/Dokumente/NetBeansProjects/Jg3/Exercise_230_ObstacleRush/src/bl/Obstacle.java</file>
-            <file>file:/C:/Users/vizug/OneDrive/Dokumente/NetBeansProjects/Jg3/Exercise_230_ObstacleRush/src/bl/Player.java</file>
-            <file>file:/C:/Users/vizug/OneDrive/Dokumente/NetBeansProjects/Jg3/Exercise_230_ObstacleRush/src/bl/User.java</file>
-            <file>file:/C:/Users/vizug/OneDrive/Dokumente/NetBeansProjects/Jg3/Exercise_230_ObstacleRush/src/bl/GameBL.java</file>
-            <file>file:/C:/Users/vizug/OneDrive/Dokumente/NetBeansProjects/Jg3/Exercise_230_ObstacleRush/src/gui/MainGUI.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/gui/MainGUI.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/bl/Player.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/gui/CreateUserDialog.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/bl/GameBL.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/gui/HighscoreTable.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/bl/Obstacle.java</file>
+            <file>file:/C:/Users/ManiPC/Documents/NetBeansProjects/Jg3/Obstacle-Rush/src/bl/User.java</file>
         </group>
     </open-files>
 </project-private>
