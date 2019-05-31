@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -49,6 +50,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         createDlg();
         createObstacle();
         threadpanel.start();
+        countScore();
 
     }
 
@@ -169,12 +171,17 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
 
     }
 
-    public void createHighscore() throws SQLException{
+    public void createHighscore() throws Exception{
         Highscore hs = new Highscore(this.score,user.getUsername());
         insertIntoDataBase(hs);
     }
-    public void insertIntoDataBase(Highscore hs) throws SQLException{
+    public void insertIntoDataBase(Highscore hs) throws Exception{
         db.insertHighscore(hs);
+        
+        ArrayList<Highscore> scores = db.getScores();
+        for (Highscore score1 : scores) {
+            System.out.println(score1);
+        }
     }
     public void countScore() {
         threadscore = new Thread() {
@@ -200,14 +207,15 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         threadscore.start();
     }
 
-    public void checkPlayerObstacles() throws SQLException {
+    public void checkPlayerObstacles() throws Exception {
         for (Obstacle obstacle : obstacles) {
             if (obstacle.x == player.x && obstacle.y == player.y) {
                 threadobstacle.stop();
                 threadpanel.stop();
                 threadscore.stop();
+                JOptionPane.showMessageDialog(null, "You have lost!");System.out.println(score);
                 createHighscore();
-                JOptionPane.showMessageDialog(null, "You have lost!");
+                
             }
         }
     }
