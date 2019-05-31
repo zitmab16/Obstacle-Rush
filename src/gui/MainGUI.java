@@ -72,6 +72,7 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Obstacle Rush");
 
         panelGame.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -116,12 +117,15 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelGame, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Creates the dialog where the user can choose his username and the color of his dot
+     */
     public void createDlg() {
         dlg = new CreateUserDialog(this, true);
         dlg.setVisible(true);
@@ -131,6 +135,10 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         }
     }
 
+    /**
+     * Increase or decrease the x and y value of the player so he can move
+     * @param evt 
+     */
     private void panelGameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelGameKeyPressed
 
         switch (evt.getKeyCode()) {
@@ -153,6 +161,9 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
 
     }//GEN-LAST:event_panelGameKeyPressed
 
+    /**
+     * Creates a Thread which spawns obstacles and add them to a list
+     */    
     public void createObstacle() {
         threadobstacle = new Thread() {
             @Override
@@ -171,10 +182,20 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
 
     }
 
+    /**
+     * Creates a Highscore object and call the methode insertIntoDataBase()
+     * @throws Exception 
+     */
     public void createHighscore() throws Exception{
         Highscore hs = new Highscore(this.score,user.getUsername());
         insertIntoDataBase(hs);
     }
+    /**
+     * Calls the inserHighscore methode from the database and should insert the values into the database
+     * It also should print the outputs on the consoles
+     * @param hs
+     * @throws Exception 
+     */
     public void insertIntoDataBase(Highscore hs) throws Exception{
         db.insertHighscore(hs);
         
@@ -183,6 +204,9 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
             System.out.println(score1);
         }
     }
+    /**
+     * Creates a Thread which increases the score for the game
+     */
     public void countScore() {
         threadscore = new Thread() {
             
@@ -207,6 +231,10 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         threadscore.start();
     }
 
+    /**
+     * checks the lose condition , stops all threads and calls the createHighscore() methode
+     * @throws Exception 
+     */
     public void checkPlayerObstacles() throws Exception {
         for (Obstacle obstacle : obstacles) {
             if (obstacle.x == player.x && obstacle.y == player.y) {
@@ -220,6 +248,10 @@ public class MainGUI extends javax.swing.JFrame implements Runnable {
         }
     }
 
+    /**
+     * paint the obstacles and the player into the panel
+     * @param gParent 
+     */
     @Override
     public void paint(Graphics gParent) {
         Graphics2D g = (Graphics2D) panelGame.getGraphics();

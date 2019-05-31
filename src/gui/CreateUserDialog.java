@@ -7,6 +7,9 @@ package gui;
 
 import bl.User;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -108,6 +111,14 @@ public class CreateUserDialog extends javax.swing.JDialog {
                 break;
         }
 
+        if (tfUsername.getText().length()<2 || tfUsername.getText().length()>12){
+            try {
+                throw new Exception("Username invalid! Must be between 2 and 12 characters");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        
         user = new User(tfUsername.getText(), c);
         ok = true;
         this.dispose();

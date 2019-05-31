@@ -51,6 +51,11 @@ public class DataBase {
         return theInstance;
     }
 
+    /**
+     * Insert the data into the database
+     * @param hs
+     * @throws SQLException 
+     */
     public void insertHighscore(Highscore hs) throws SQLException {
 
         String sql = "INSERT INTO HIGHSCORE VALUES(?,?)";
@@ -62,6 +67,11 @@ public class DataBase {
 
     }
 
+    /**
+     * Get the dataset from the database and add them to a ArrayList
+     * @return
+     * @throws Exception 
+     */
     public ArrayList<Highscore> getScores() throws Exception {
         ArrayList<Highscore> highscores = new ArrayList<>();
 
